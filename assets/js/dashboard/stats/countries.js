@@ -11,6 +11,18 @@ import * as api from '../api'
 import { navigateToQuery } from '../query'
 import { withThemeConsumer } from '../theme-consumer-hoc';
 
+import ListReport from './reports/list'
+
+function Subdivisions({query, site}) {
+  function fetchData() {
+    return api.get(`/api/stats/${encodeURIComponent(site.domain)}/subdivisions1`, query, {country_name: query.filters['country'], limit: 9})
+  }
+
+  return (
+    <ListReport title={'Regions'} fetchData={fetchData} filterKey={'subdivision1'} keyLabel={'Region'} query={query} />
+  )
+}
+
 class Countries extends React.Component {
   constructor(props) {
     super(props)
@@ -147,6 +159,10 @@ class Countries extends React.Component {
   }
 
   render() {
+    if (this.props.query.filters['country']) {
+      return <Subdivisions site={this.props.site} query={this.props.query} />
+    }
+
     return (
       <div
         className="relative p-4 bg-white rounded shadow-xl stats-item flex flex-col dark:bg-gray-825 mt-6 w-full"
