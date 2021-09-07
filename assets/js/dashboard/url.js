@@ -3,5 +3,5 @@ export function apiPath(site, path = '') {
 }
 
 export function sitePath(site, path = '') {
-  return `/${encodeURIComponent(site.domain)}${path}`
+  return `/${encodeURIComponent(site.domain)}${path}${window.location.search}`
 }
